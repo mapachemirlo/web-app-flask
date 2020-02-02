@@ -1,0 +1,76 @@
+{% extends 'layout.html' %} <!-- Importar Layaout -->
+
+{% block body %}  <!-- Agregar estilo de Layaout -->
+
+<div class="row">
+    <div class="col-md-5">
+
+            {% with messages = get_flashed_messages() %}  
+            {% if messages %}
+            {% for message in messages%}
+                <!-- <p>{{ message }}</p> -->
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+        <div class="card card-body">
+                <form action="/add_contact" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="fullname" placeholder="Fullname" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="phone" placeholder="Phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="email" placeholder="Email" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Save
+                        </button>
+                    </div>
+                    
+                </form>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <table class="table table-striped table-bordered bg-white table-sm">
+            <thead>
+                <tr>
+                    <td>Fullname</td>
+                    <td>Phone</td>
+                    <td>Email</td>
+                    <td>Operaciones</td>
+                    </tr>
+            </thead>
+                <tbody>
+                    {% for contact in contacts %} <!-- La variable contacts del servidor -->
+                        <tr>
+                            <td>{{ contact.1 }}</td> <!-- El lugar de la tupla-->
+                            <td>{{ contact.2 }}</td>
+                            <td>{{ contact.3 }}</td>
+                            <td>
+                                <a href="/edit/{{contact.0}}" class="btn btn-secundary">Editar</a>
+                                <a href="/delete/{{contact.0}}" class="btn btn-danger btn-delete">Borrar</a> <!-- Borrar por id-->
+                                </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
